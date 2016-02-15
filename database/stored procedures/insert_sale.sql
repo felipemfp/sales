@@ -2,7 +2,7 @@ use Sales
 
 create procedure spInsertSale
   @ClientId int,
-  @DateSale datetime = getdate(),
+  @DateSale datetime,
   @SaleId int OUTPUT
 as
 begin
