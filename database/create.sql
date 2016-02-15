@@ -1,5 +1,7 @@
 create database Sales
 
+use Sales
+
 create table Manufacturer (
   Id int primary key identity,
   Description varchar(100) not null
@@ -7,7 +9,7 @@ create table Manufacturer (
 
 create table Product (
   Id int primary key identity,
-  ManufacturerId int foreign key references Manufacturer(Id)
+  ManufacturerId int foreign key references Manufacturer(Id),
   Description varchar(100) not null,
   Stock int not null default 0,
   Price money not null
@@ -34,5 +36,5 @@ create table SaleProduct (
   ProductId int foreign key references Product(Id),
   Quantity int not null,
   Price money not null,
-  primary key (SaleId, Id)
+  primary key (SaleId, ItemId)
 )
