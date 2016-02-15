@@ -23,15 +23,16 @@ create table Sale (
   Id int primary key identity,
   ClientId int foreign key references Client(Id),
   DateSale datetime not null default getdate(),
-  Total money not null,
-  Discount money not null,
-  FinalTotal money not null
+  Total money not null default 0,
+  Discount money not null default 0,
+  FinalTotal money not null default 0
 )
 
 create table SaleProduct (
   SaleId int foreign key references Sale(Id),
+  ItemId int,
   ProductId int foreign key references Product(Id),
   Quantity int not null,
   Price money not null,
-  primary key (SaleId, ProductId)
+  primary key (SaleId, Id)
 )
