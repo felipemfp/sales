@@ -24,7 +24,7 @@ Desenvolver aplicações com a utilização de serviços e programação em banc
 
 - [x] Cliente  VIP  deve  ser  realizado  utilizando  procedimento  armazenado  e  gatilho.  Um  cliente  passa  a  ser  VIP quando tiver pelos menos 20 vendas nos últimos 12 meses e perde esse status caso passe mais de 90 dias sem comprar. Esse caso de uso deve ser disparado sempre que uma venda for cadastrada. 
 
-- [ ] Atualizar Estoque deve ser realizado utilizando procedimento armazenado e gatilho. Ele deve ser utilizado para alterar o estoque dos itens cadastrados na venda e deve gerar uma exceção caso o estoque de um produto fique negativo. 
+- [x] Atualizar Estoque deve ser realizado utilizando procedimento armazenado e gatilho. Ele deve ser utilizado para alterar o estoque dos itens cadastrados na venda e deve gerar uma exceção caso o estoque de um produto fique negativo. 
 
 - [x] Listagem  de  Vendas  deve  ser  realizada  através  de  procedimentos  armazenados  que  retorne  a  relação  de vendas em um determinado período ou de um determinado cliente. 
 
