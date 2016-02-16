@@ -26,8 +26,8 @@ Desenvolver aplicações com a utilização de serviços e programação em banc
 
 - [ ] Atualizar Estoque deve ser realizado utilizando procedimento armazenado e gatilho. Ele deve ser utilizado para alterar o estoque dos itens cadastrados na venda e deve gerar uma exceção caso o estoque de um produto fique negativo. 
 
-- [ ] Listagem  de  Vendas  deve  ser  realizada  através  de  procedimentos  armazenados  que  retorne  a  relação  devendas em um determinado período ou de um determinado cliente. 
+- [x] Listagem  de  Vendas  deve  ser  realizada  através  de  procedimentos  armazenados  que  retorne  a  relação  de vendas em um determinado período ou de um determinado cliente. 
 
-- [ ] Listagem  de  Produtos  Mais  Vendidos  no  Mês  deve  ser  realizada  com  um  procedimento  armazenado  que retorne a relação com os x produtos mais vendidos em um mês, onde x é um número informado pelo usuário. 
+- [x] Listagem  de  Produtos  Mais  Vendidos  no  Mês  deve  ser  realizada  com  um  procedimento  armazenado  que retorne a relação com os x produtos mais vendidos em um mês, onde x é um número informado pelo usuário. 
 
 - [x] Listagem de Clientes VIPs deve utilizar uma visão para retornar a relação de clientes VIPs. 
