@@ -7,16 +7,10 @@ as
 begin
   declare
     @ProductId int,
-    @Quantity int,
-    @Stock int
+    @Quantity int
 
   select @ProductId = ProductId, @Quantity = Quantity
   from deleted
 
-  select @Stock = Stock
-  from Product
-  where Id = @ProductId
-
-  set @Stock = @Stock + @Quantity
-  exec spUpdateProductStock @ProductId, @Stock
+  exec spAddProductStock @ProductId, @Quantity
 end

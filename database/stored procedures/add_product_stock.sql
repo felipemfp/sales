@@ -1,13 +1,13 @@
 use Sales
 
-create procedure spUpdateProductStock
+create procedure spAddProductStock
   @ProductId int,
-  @Stock int
+  @Quantity int
 as
 begin
   update Product
   set
-    Stock = @Stock
+    Stock = Stock + @Quantity
   where
     Id = @ProductId
 end

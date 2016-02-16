@@ -1,5 +1,5 @@
 use Sales
-
+go
 insert into Manufacturer (Description)
 values
   ('Samsung'),
@@ -7,7 +7,7 @@ values
   ('Nokia'),
   ('Sony'),
   ('Apple')
-
+go
 insert into Product (ManufacturerId, Description, Stock, Price)
 values
   (1, 'Galaxy S3', 50, 1000.0),
@@ -26,7 +26,7 @@ values
   (5, 'Iphone 5s', 50, 1600.0),
   (5, 'Iphone 5c', 50, 1500.0),
   (5, 'Iphone 6s', 50, 2000.0)
-
+go
 insert into Client (Name)
 values
   ('Gustavo Simpório'),
