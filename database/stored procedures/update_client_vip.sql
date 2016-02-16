@@ -17,7 +17,7 @@ begin
     where ClientId = @ClientId
       and DateSale > @DateCompare
       and DateSale < @DateSale
-  select top 1 @DateLastSale = DateSale from Sale
+  select top(1) @DateLastSale = DateSale from Sale
     where ClientId = @ClientId
       and DateSale < @DateSale
     order by DateSale desc
