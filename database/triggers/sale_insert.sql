@@ -12,5 +12,5 @@ begin
   select @ClientId = ClientId, @DateSale = DateSale
   from inserted
 
-  exec spUpdateVIP @ClientId, @DateSale
+  exec spUpdateClientVIP @ClientId, @DateSale
 end
