@@ -52,7 +52,7 @@ begin
   else if (@CountSales < 10)
     set @Percent = @CountSales
 
-  set @Discount = @Total * (@Percent / 100)
+  set @Discount = @Total * (@Percent / 100.0)
   set @FinalTotal = @Total - @Discount
 
   update Sale
