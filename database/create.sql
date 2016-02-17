@@ -9,7 +9,7 @@ create table Manufacturer (
 
 create table Product (
   Id int primary key identity,
-  ManufacturerId int foreign key references Manufacturer(Id),
+  ManufacturerId int not null foreign key references Manufacturer(Id),
   Description varchar(100) not null,
   Stock int not null default 0,
   Price money not null
@@ -23,7 +23,7 @@ create table Client (
 
 create table Sale (
   Id int primary key identity,
-  ClientId int foreign key references Client(Id),
+  ClientId int not null foreign key references Client(Id),
   DateSale datetime not null default getdate(),
   Total money not null default 0,
   Discount money not null default 0,
@@ -33,7 +33,7 @@ create table Sale (
 create table SaleProduct (
   SaleId int foreign key references Sale(Id),
   ItemId int,
-  ProductId int foreign key references Product(Id),
+  ProductId int not null foreign key references Product(Id),
   Quantity int not null,
   Price money not null,
   primary key (SaleId, ItemId)
