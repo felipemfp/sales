@@ -36,5 +36,22 @@ namespace Sales.WPFApp
             dataGrid.ItemsSource = JsonConvert.DeserializeObject<List<Client>>(json);
             dataGrid.IsReadOnly = true;
         }
+
+        private async void buttonAdd_Click(object sender, RoutedEventArgs e)
+        {
+            string name = textBoxName.Text.Trim();
+            if (!String.IsNullOrEmpty(name))
+            {
+                Client client = new Client()
+                {
+                    Name = name,
+                    VIP = false
+                };
+                string json = JsonConvert.SerializeObject(client);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                await APIService.GetClient().PostAsync("clients", content);
+                InitDataGrid();
+            }
+        }
     }
 }

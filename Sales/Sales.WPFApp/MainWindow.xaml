@@ -8,14 +8,15 @@
         Title="Main - Sales" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBox x:Name="textBoxName" Margin="10" Grid.Column="0" Grid.Row="0"></TextBox>
-        <DataGrid HorizontalContentAlignment="Stretch" x:Name="dataGrid" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" />
-
+        <Button x:Name="buttonAdd" Click="buttonAdd_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="1" />
+        <DataGrid x:Name="dataGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" />
     </Grid>
 </Window>
