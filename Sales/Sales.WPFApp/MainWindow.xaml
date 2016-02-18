@@ -16,7 +16,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBox x:Name="textBoxName" Margin="10" Grid.Column="0" Grid.Row="0"></TextBox>
-        <Button x:Name="buttonAdd" Click="buttonAdd_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="1" />
+        <Button x:Name="buttonAdd" Click="buttonAdd_Click" Margin="10, 10, 130, 10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="1" />
+        <Button x:Name="buttonEdit" Click="buttonEdit_Click" Margin="10, 10, 70, 10" HorizontalAlignment="Right" Width="50" Content="Edit" Grid.Row="1" />
+        <Button x:Name="buttonDelete" Click="buttonDelete_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Delete" Grid.Row="1" />
         <DataGrid x:Name="dataGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" />
     </Grid>
 </Window>
