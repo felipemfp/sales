@@ -31,9 +31,7 @@ namespace Sales.WPFApp
 
         async void InitDataGrid()
         {
-            HttpResponseMessage response = await APIService.GetClient().GetAsync("clients");
-            string json = response.Content.ReadAsStringAsync().Result;
-            dataGrid.ItemsSource = JsonConvert.DeserializeObject<List<Client>>(json);
+            dataGrid.ItemsSource = await Client.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
             dataGrid.IsReadOnly = true;
         }
@@ -47,9 +45,7 @@ namespace Sales.WPFApp
                 {
                     Name = name
                 };
-                string json = JsonConvert.SerializeObject(client);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                await APIService.GetClient().PostAsync("clients", content);
+                await Client.Add(client);
                 InitDataGrid();
             }
         }
@@ -61,9 +57,7 @@ namespace Sales.WPFApp
             if (client != null && !String.IsNullOrEmpty(newName))
             {
                 client.Name = newName;
-                string json = JsonConvert.SerializeObject(client);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                await APIService.GetClient().PutAsync($"clients/{client.Id}", content);
+                await Client.Edit(client);
                 InitDataGrid();
             }
         }
@@ -73,9 +67,9 @@ namespace Sales.WPFApp
             Client client = dataGrid.SelectedItem as Client;
             if (client != null)
             {
-                if (MessageBox.Show("Tem certeza?", "Delete Client", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Are you sure?", "Delete Client", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    await APIService.GetClient().DeleteAsync($"clients/{client.Id}");
+                    await Client.Delete(client);
                     InitDataGrid();
                 }
             }
