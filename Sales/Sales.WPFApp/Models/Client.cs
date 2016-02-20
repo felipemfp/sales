@@ -14,14 +14,32 @@ namespace Sales.WPFApp.Models
         public string Name { get; set; }
         public bool VIP { get; set; }
 
+        public static async Task<Client> Find(int id)
+        {
+            using (var c = APIService.GetClient())
+            {
+                HttpResponseMessage response = await c.GetAsync($"clients/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<Client>(json);
+                }
+            }
+            throw new NullReferenceException("Client not found");
+        }
+
         public static async Task<List<Client>> ToList()
         {
             using (var c = APIService.GetClient())
             {
                 HttpResponseMessage response = await c.GetAsync("clients");
-                string json = response.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<List<Client>>(json);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<Client>>(json);
+                }
             }
+            return null;
         }
 
         public static async Task<HttpResponseMessage> Add(Client client)

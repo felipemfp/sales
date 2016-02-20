@@ -33,7 +33,7 @@ namespace Sales.API.Models
         [DataMember]
         public decimal Price { get; set; }
 
-        [IgnoreDataMember]
+        [DataMember]
         public virtual Manufacturer Manufacturer { get; set; }
         [IgnoreDataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

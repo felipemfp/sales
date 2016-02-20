@@ -37,7 +37,8 @@ namespace Sales.WPFApp
 
         private void buttonProducts_Click(object sender, RoutedEventArgs e)
         {
-
+            ProductsWindow productsWindow = new ProductsWindow();
+            productsWindow.ShowDialog();
         }
 
         private void buttonManufacturers_Click(object sender, RoutedEventArgs e)

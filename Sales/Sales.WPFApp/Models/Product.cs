@@ -8,64 +8,68 @@ using Newtonsoft.Json;
 
 namespace Sales.WPFApp.Models
 {
-    class Manufacturer
+    class Product
     {
         public int Id { get; set; }
+        public int ManufacturerId { get; set; }
         public string Description { get; set; }
+        public int Stock { get; set; }
+        public decimal Price { get; set; }
+        public Manufacturer Manufacturer { get; set; }
 
-        public static async Task<Manufacturer> Find(int id)
+        public static async Task<Product> Find(int id)
         {
             using (var c = APIService.GetClient())
             {
-                HttpResponseMessage response = await c.GetAsync($"manufacturers/{id}");
+                HttpResponseMessage response = await c.GetAsync($"products/{id}");
                 if (response.IsSuccessStatusCode)
                 {
                     string json = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<Manufacturer>(json);
+                    return JsonConvert.DeserializeObject<Product>(json);
                 }
             }
-            throw new NullReferenceException("Manufacturer not found");
+            throw new NullReferenceException("Product not found");
         }
 
-        public static async Task<List<Manufacturer>> ToList()
+        public static async Task<List<Product>> ToList()
         {
             using (var c = APIService.GetClient())
             {
-                HttpResponseMessage response = await c.GetAsync("manufacturers");
+                HttpResponseMessage response = await c.GetAsync("products");
                 if (response.IsSuccessStatusCode)
                 {
                     string json = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<List<Manufacturer>>(json);
+                    return JsonConvert.DeserializeObject<List<Product>>(json);
                 }
             }
             return null;
         }
 
-        public static async Task<HttpResponseMessage> Add(Manufacturer manufacturer)
+        public static async Task<HttpResponseMessage> Add(Product product)
         {
             using (var c = APIService.GetClient())
             {
-                string json = JsonConvert.SerializeObject(manufacturer);
+                string json = JsonConvert.SerializeObject(product);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                return await c.PostAsync("manufacturers", content);
+                return await c.PostAsync("products", content);
             }
         }
 
-        public static async Task<HttpResponseMessage> Edit(Manufacturer manufacturer)
+        public static async Task<HttpResponseMessage> Edit(Product product)
         {
             using (var c = APIService.GetClient())
             {
-                string json = JsonConvert.SerializeObject(manufacturer);
+                string json = JsonConvert.SerializeObject(product);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                return await c.PutAsync($"manufacturers/{manufacturer.Id}", content);
+                return await c.PutAsync($"products/{product.Id}", content);
             }
         }
 
-        public static async Task<HttpResponseMessage> Delete(Manufacturer manufacturer)
+        public static async Task<HttpResponseMessage> Delete(Product product)
         {
             using (var c = APIService.GetClient())
             {
-                return await c.DeleteAsync($"manufacturers/{manufacturer.Id}");
+                return await c.DeleteAsync($"products/{product.Id}");
             }
         }
     }
