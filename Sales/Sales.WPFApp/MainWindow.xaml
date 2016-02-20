@@ -5,20 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sales.WPFApp"
         mc:Ignorable="d"
-        Title="Main - Sales" Height="350" Width="525">
+        ResizeMode="CanMinimize"
+        Title="Main - Sales" Height="300" Width="300">
+    <Window.Resources>
+        <ImageBrush x:Key="SalesIcon"  ImageSource="/Sales.WPFApp;component/Content/sales-icon.png"  Stretch="UniformToFill"/>
+        <ImageBrush x:Key="ClientsIcon" ImageSource="/Content/clients-icon.png" Stretch="UniformToFill"/>
+        <ImageBrush x:Key="ProductsIcon" ImageSource="/Content/products-icon.png" Stretch="UniformToFill"/>
+        <ImageBrush x:Key="ManufacturersIcon" ImageSource="/Content/manufacturers-icon.png" Stretch="UniformToFill"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="textBoxName" Margin="10" Grid.Column="0" Grid.Row="0"></TextBox>
-        <Button x:Name="buttonAdd" Click="buttonAdd_Click" Margin="10, 10, 130, 10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="1" />
-        <Button x:Name="buttonEdit" Click="buttonEdit_Click" Margin="10, 10, 70, 10" HorizontalAlignment="Right" Width="50" Content="Edit" Grid.Row="1" />
-        <Button x:Name="buttonDelete" Click="buttonDelete_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Delete" Grid.Row="1" />
-        <DataGrid x:Name="dataGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" />
+        <Button x:Name="buttonSales" Click="buttonSales_Click" Grid.Row="0" Grid.Column="0" Foreground="White" Content="Sales" VerticalContentAlignment="Bottom" Background="{StaticResource SalesIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Button x:Name="buttonClients" Click="buttonClients_Click" Grid.Row="0" Grid.Column="1" Foreground="White" Content="Clients" VerticalContentAlignment="Bottom" Background="{StaticResource ClientsIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Button x:Name="buttonProducts" Click="buttonProducts_Click" Grid.Row="1" Grid.Column="0" Foreground="White" Content="Products" VerticalContentAlignment="Bottom" Background="{StaticResource ProductsIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Button x:Name="buttonManufacturers" Click="buttonManufacturers_Click" Grid.Row="1" Grid.Column="1" Foreground="White" Content="Manufacturers" VerticalContentAlignment="Bottom" Background="{StaticResource ManufacturersIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

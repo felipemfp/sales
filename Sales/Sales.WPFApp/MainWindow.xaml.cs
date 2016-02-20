@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,10 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
-using Sales.WPFApp.Models;
 
 namespace Sales.WPFApp
 {
@@ -26,53 +22,27 @@ namespace Sales.WPFApp
         public MainWindow()
         {
             InitializeComponent();
-            InitDataGrid();
         }
 
-        async void InitDataGrid()
+        private void buttonSales_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = await Client.ToList();
-            dataGrid.SelectionMode = DataGridSelectionMode.Single;
-            dataGrid.IsReadOnly = true;
+
         }
 
-        private async void buttonAdd_Click(object sender, RoutedEventArgs e)
+        private void buttonClients_Click(object sender, RoutedEventArgs e)
         {
-            string name = textBoxName.Text.Trim();
-            if (!String.IsNullOrEmpty(name))
-            {
-                Client client = new Client()
-                {
-                    Name = name
-                };
-                await Client.Add(client);
-                InitDataGrid();
-            }
+            ClientsWindow clientsWindows = new ClientsWindow();
+            clientsWindows.ShowDialog();
         }
 
-        private async void buttonEdit_Click(object sender, RoutedEventArgs e)
+        private void buttonProducts_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
-            string newName = textBoxName.Text.Trim();
-            if (client != null && !String.IsNullOrEmpty(newName))
-            {
-                client.Name = newName;
-                await Client.Edit(client);
-                InitDataGrid();
-            }
+
         }
 
-        private async void buttonDelete_Click(object sender, RoutedEventArgs e)
+        private void buttonManufacturers_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
-            if (client != null)
-            {
-                if (MessageBox.Show("Are you sure?", "Delete Client", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    await Client.Delete(client);
-                    InitDataGrid();
-                }
-            }
+
         }
     }
 }
