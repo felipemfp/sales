@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Sales.WPFApp"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
+        Icon="main-icon.ico"
         Title="Main - Sales" Height="300" Width="300">
     <Window.Resources>
         <ImageBrush x:Key="SalesIcon"  ImageSource="/Sales.WPFApp;component/Content/sales-icon.png"  Stretch="UniformToFill"/>

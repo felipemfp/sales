@@ -21,9 +21,9 @@ namespace Sales.WPFApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ClientsWindow : Window
+    public partial class ManufacturersWindow : Window
     {
-        public ClientsWindow()
+        public ManufacturersWindow()
         {
             InitializeComponent();
             InitDataGrid();
@@ -31,59 +31,59 @@ namespace Sales.WPFApp
 
         async void InitDataGrid()
         {
-            dataGrid.ItemsSource = await Client.ToList();
+            dataGrid.ItemsSource = await Manufacturer.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
             dataGrid.IsReadOnly = true;
         }
 
         private async void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            string name = textBoxName.Text.Trim();
-            if (!String.IsNullOrEmpty(name))
+            string description = textBoxDescription.Text.Trim();
+            if (!String.IsNullOrEmpty(description))
             {
-                Client client = new Client()
+                Manufacturer manufacturer = new Manufacturer()
                 {
-                    Name = name
+                    Description = description
                 };
-                await Client.Add(client);
+                await Manufacturer.Add(manufacturer);
                 InitDataGrid();
             }
             else
             {
-                MessageBox.Show("Enter a name...");
+                MessageBox.Show("Enter a description...");
             }
         }
 
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
-            string newName = textBoxName.Text.Trim();
-            if (client != null && !String.IsNullOrEmpty(newName))
+            Manufacturer manufacturer = dataGrid.SelectedItem as Manufacturer;
+            string newDescription = textBoxDescription.Text.Trim();
+            if (manufacturer != null && !String.IsNullOrEmpty(newDescription))
             {
-                client.Name = newName;
-                await Client.Edit(client);
+                manufacturer.Description = newDescription;
+                await Manufacturer.Edit(manufacturer);
                 InitDataGrid();
             }
             else
             {
-                MessageBox.Show("Name is required...");
+                MessageBox.Show("Description is required...");
             }
         }
 
         private async void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
-            if (client != null)
+            Manufacturer manufacturer = dataGrid.SelectedItem as Manufacturer;
+            if (manufacturer != null)
             {
-                if (MessageBox.Show("Are you sure?", "Delete Client", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Are you sure?", "Delete Manufacturer", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    await Client.Delete(client);
+                    await Manufacturer.Delete(manufacturer);
                     InitDataGrid();
                 }
             }
             else
             {
-                MessageBox.Show("Select a client...");
+                MessageBox.Show("Select a manufacturer...");
             }
         }
     }

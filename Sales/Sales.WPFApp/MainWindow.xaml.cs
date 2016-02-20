@@ -42,7 +42,8 @@ namespace Sales.WPFApp
 
         private void buttonManufacturers_Click(object sender, RoutedEventArgs e)
         {
-
+            ManufacturersWindow manufacturersWindow = new ManufacturersWindow();
+            manufacturersWindow.ShowDialog();
         }
     }
 }
