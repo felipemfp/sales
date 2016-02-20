@@ -45,8 +45,16 @@ namespace Sales.WPFApp
                 {
                     Description = description
                 };
-                await Manufacturer.Add(manufacturer);
-                InitDataGrid();
+                HttpResponseMessage response = await Manufacturer.Add(manufacturer);
+                if (response.IsSuccessStatusCode)
+                {
+                    InitDataGrid();
+                    MessageBox.Show($"Manufacturer {manufacturer.Description} was added");
+                }
+                else
+                {
+                    MessageBox.Show($"Manufacturer {manufacturer.Description} wasn't added");
+                }
             }
             else
             {
@@ -56,13 +64,21 @@ namespace Sales.WPFApp
 
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-            Manufacturer manufacturer = dataGrid.SelectedItem as Manufacturer;
+            Manufacturer manufacturer = (Manufacturer)dataGrid.SelectedItem;
             string newDescription = textBoxDescription.Text.Trim();
             if (manufacturer != null && !String.IsNullOrEmpty(newDescription))
             {
                 manufacturer.Description = newDescription;
-                await Manufacturer.Edit(manufacturer);
-                InitDataGrid();
+                HttpResponseMessage response = await Manufacturer.Edit(manufacturer);
+                if (response.IsSuccessStatusCode)
+                {
+                    InitDataGrid();
+                    MessageBox.Show($"Manufacturer {manufacturer.Description} was edited");
+                }
+                else
+                {
+                    MessageBox.Show($"Manufacturer {manufacturer.Description} wasn't edited");
+                }
             }
             else
             {
@@ -72,18 +88,35 @@ namespace Sales.WPFApp
 
         private async void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
-            Manufacturer manufacturer = dataGrid.SelectedItem as Manufacturer;
+            Manufacturer manufacturer = (Manufacturer)dataGrid.SelectedItem;
             if (manufacturer != null)
             {
                 if (MessageBox.Show("Are you sure?", "Delete Manufacturer", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    await Manufacturer.Delete(manufacturer);
-                    InitDataGrid();
+                    HttpResponseMessage response = await Manufacturer.Delete(manufacturer);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        InitDataGrid();
+                        MessageBox.Show($"Manufacturer {manufacturer.Description} was deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Manufacturer {manufacturer.Description} wasn't deleted");
+                    }
                 }
             }
             else
             {
                 MessageBox.Show("Select a manufacturer...");
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Manufacturer manufacturer = (Manufacturer)dataGrid.SelectedItem;
+            if (manufacturer != null)
+            {
+                textBoxDescription.Text = manufacturer.Description;
             }
         }
     }

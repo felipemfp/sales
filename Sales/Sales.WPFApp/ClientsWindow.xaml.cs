@@ -45,8 +45,16 @@ namespace Sales.WPFApp
                 {
                     Name = name
                 };
-                await Client.Add(client);
-                InitDataGrid();
+                HttpResponseMessage response = await Client.Add(client);
+                if (response.IsSuccessStatusCode)
+                {
+                    InitDataGrid();
+                    MessageBox.Show($"Client {client.Name} was added");
+                }
+                else
+                {
+                    MessageBox.Show($"Client {client.Name} wasn't added");
+                }
             }
             else
             {
@@ -56,13 +64,21 @@ namespace Sales.WPFApp
 
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
+            Client client = (Client)dataGrid.SelectedItem;
             string newName = textBoxName.Text.Trim();
             if (client != null && !String.IsNullOrEmpty(newName))
             {
                 client.Name = newName;
-                await Client.Edit(client);
-                InitDataGrid();
+                HttpResponseMessage response = await Client.Edit(client);
+                if (response.IsSuccessStatusCode)
+                {
+                    InitDataGrid();
+                    MessageBox.Show($"Client {client.Name} was edited");
+                }
+                else
+                {
+                    MessageBox.Show($"Client {client.Name} wasn't edited");
+                }
             }
             else
             {
@@ -72,18 +88,35 @@ namespace Sales.WPFApp
 
         private async void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
-            Client client = dataGrid.SelectedItem as Client;
+            Client client = (Client)dataGrid.SelectedItem;
             if (client != null)
             {
                 if (MessageBox.Show("Are you sure?", "Delete Client", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    await Client.Delete(client);
-                    InitDataGrid();
+                    HttpResponseMessage response = await Client.Delete(client);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        InitDataGrid();
+                        MessageBox.Show($"Client {client.Name} was deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Client {client.Name} wasn't deleted");
+                    }
                 }
             }
             else
             {
                 MessageBox.Show("Select a client...");
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Client client = (Client)dataGrid.SelectedItem;
+            if (client != null)
+            {
+                textBoxName.Text = client.Name;
             }
         }
     }

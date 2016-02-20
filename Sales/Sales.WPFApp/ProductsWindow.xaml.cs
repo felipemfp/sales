@@ -45,7 +45,8 @@ namespace Sales.WPFApp
 
         private async void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            int manufacturerId = ((Manufacturer)comboBoxManufacturer.SelectedItem).Id;
+            Manufacturer manufacturer = (Manufacturer)comboBoxManufacturer.SelectedItem;
+            int manufacturerId = manufacturer.Id;
             string description = textBoxDescription.Text.Trim();
             decimal price = decimal.Parse(textBoxPrice.Text.Trim(), new CultureInfo("pt-BR"));
             int stock = int.Parse(textBoxStock.Text.Trim());
@@ -62,11 +63,11 @@ namespace Sales.WPFApp
                 if (responde.IsSuccessStatusCode)
                 {
                     InitDataGrid();
-                    MessageBox.Show($"Product {product.Description} was added");
+                    MessageBox.Show($"Product {product.Description} of {manufacturer.Description} was added");
                 }
                 else
                 {
-                    MessageBox.Show($"Product {product.Description} wasn't added");
+                    MessageBox.Show($"Product {product.Description} of {manufacturer.Description} wasn't added");
                 }
             }
             else
@@ -94,11 +95,11 @@ namespace Sales.WPFApp
                 if (responde.IsSuccessStatusCode)
                 {
                     InitDataGrid();
-                    MessageBox.Show($"Product #{product.Id} was edited");
+                    MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} was edited");
                 }
                 else
                 {
-                    MessageBox.Show($"Product #{product.Id} wasn't edited");
+                    MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} wasn't edited");
                 }
             }
             else
@@ -118,11 +119,11 @@ namespace Sales.WPFApp
                     if (responde.IsSuccessStatusCode)
                     {
                         InitDataGrid();
-                        MessageBox.Show($"Product #{product.Id} was deleted");
+                        MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} was deleted");
                     }
                     else
                     {
-                        MessageBox.Show($"Product #{product.Id} wasn't deleted");
+                        MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} wasn't deleted");
                     }
                 }
             }
