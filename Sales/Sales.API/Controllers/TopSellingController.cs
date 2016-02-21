@@ -13,9 +13,10 @@ namespace Sales.API.Controllers
         private SalesEntities db = new SalesEntities();
 
         // GET: api/TopSelling
-        public IEnumerable<spSelectTopSellingProducts_Result> GetTopSellingProducts([FromUri]int length)
+        public IEnumerable<Product> GetTopSellingProducts([FromUri]int length)
         {
-            return db.spSelectTopSellingProducts(length).ToList();
+            List<spSelectTopSellingProducts_Result> result = db.spSelectTopSellingProducts(length).ToList();
+            return result.Select(p => db.Products.Find(p.Id));
         }
 
         protected override void Dispose(bool disposing)

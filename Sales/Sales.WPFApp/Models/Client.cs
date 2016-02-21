@@ -28,6 +28,20 @@ namespace Sales.WPFApp.Models
             throw new NullReferenceException("Client not found");
         }
 
+        public static async Task<List<Client>> Vips()
+        {
+            using (var c = APIService.GetClient())
+            {
+                HttpResponseMessage response = await c.GetAsync("vips");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<Client>>(json);
+                }
+            }
+            return null;
+        }
+
         public static async Task<List<Client>> ToList()
         {
             using (var c = APIService.GetClient())

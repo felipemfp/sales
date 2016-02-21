@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Sales.WPFApp.Models;
 
 namespace Sales.WPFApp
 {
@@ -22,6 +23,17 @@ namespace Sales.WPFApp
         public MainWindow()
         {
             InitializeComponent();
+            InitDataGrid();
+        }
+
+        async void InitDataGrid()
+        {
+            dataGridVips.ItemsSource = await Client.Vips();
+            dataGridVips.SelectionMode = DataGridSelectionMode.Single;
+            dataGridVips.IsReadOnly = true;
+            dataGridProducts.ItemsSource = await Product.TopSelling();
+            dataGridProducts.SelectionMode = DataGridSelectionMode.Single;
+            dataGridProducts.IsReadOnly = true;
         }
 
         private void buttonSales_Click(object sender, RoutedEventArgs e)
@@ -46,6 +58,16 @@ namespace Sales.WPFApp
         {
             ManufacturersWindow manufacturersWindow = new ManufacturersWindow();
             manufacturersWindow.ShowDialog();
+        }
+
+        private async void textBoxLength_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int length = 0;
+            int.TryParse(textBoxLength.Text, out length);
+            if (length > 0 && dataGridProducts != null)
+            {
+                dataGridProducts.ItemsSource = await Product.TopSelling(length);
+            }
         }
     }
 }

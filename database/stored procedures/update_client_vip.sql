@@ -15,8 +15,7 @@ begin
   set @DateCompare = dateadd(month, -12, getdate())
   select @CountSales = count(Id) from Sale
     where ClientId = @ClientId
-      and DateSale > @DateCompare
-      and DateSale < @DateSale
+      and DateSale between @DateCompare and @DateSale
   select top(1) @DateLastSale = DateSale from Sale
     where ClientId = @ClientId
       and DateSale < @DateSale

@@ -31,6 +31,20 @@ namespace Sales.WPFApp.Models
             throw new NullReferenceException("Product not found");
         }
 
+        public static async Task<List<Product>> TopSelling(int length = 10)
+        {
+            using (var c = APIService.GetClient())
+            {
+                HttpResponseMessage response = await c.GetAsync($"topselling?length={length}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<Product>>(json);
+                }
+            }
+            return null;
+        }
+
         public static async Task<List<Product>> ToList()
         {
             using (var c = APIService.GetClient())

@@ -39,8 +39,7 @@ begin
   select @CountSales = count(Id)
   from Sale
   where ClientId = @ClientId
-    and DateSale > @DateCompare
-    and DateSale < @DateSale
+    and DateSale between @DateCompare and @DateSale
 
   select @Total = sum(Price) from SaleProduct where SaleId = @SaleId
 
