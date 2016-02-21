@@ -26,13 +26,14 @@ namespace Sales.WPFApp
 
         private void buttonSales_Click(object sender, RoutedEventArgs e)
         {
-
+            SalesWindow salesWindow = new SalesWindow();
+            salesWindow.ShowDialog();
         }
 
         private void buttonClients_Click(object sender, RoutedEventArgs e)
         {
-            ClientsWindow clientsWindows = new ClientsWindow();
-            clientsWindows.ShowDialog();
+            ClientsWindow clientsWindow = new ClientsWindow();
+            clientsWindow.ShowDialog();
         }
 
         private void buttonProducts_Click(object sender, RoutedEventArgs e)

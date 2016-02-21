@@ -35,7 +35,7 @@ namespace Sales.API.Models
         [DataMember]
         public decimal FinalTotal { get; set; }
 
-        [IgnoreDataMember]
+        [DataMember]
         public virtual Client Client { get; set; }
         [DataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

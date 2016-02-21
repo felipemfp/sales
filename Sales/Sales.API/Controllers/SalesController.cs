@@ -50,33 +50,35 @@ namespace Sales.API.Controllers
 
         // PUT: api/Sales/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutSale(int id, List<SaleProduct> saleProducts, [FromUri]int client, [FromUri]DateTime date)
+        public IHttpActionResult PutSale(int id, Sale sale)
         {
-            if (client <= 0)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != sale.Id)
             {
                 return BadRequest();
             }
 
-            Sale sale = db.Sales.Find(id);
+            Sale s = db.Sales.Find(id);
 
-            if (sale == null)
+            if (s == null)
             {
                 return NotFound();
             }
+            
+            s.SaleProducts.Clear();
+
+            db.SaveChanges();
 
             foreach (SaleProduct saleProduct in sale.SaleProducts)
             {
-                db.SaleProducts.Remove(saleProduct);
+                db.spInsertSaleProduct(s.Id, saleProduct.ProductId, saleProduct.Quantity);
             }
 
-            sale.SaleProducts.Clear();
-
-            foreach (SaleProduct saleProduct in saleProducts)
-            {
-                db.spInsertSaleProduct(sale.Id, saleProduct.ProductId, saleProduct.Quantity);
-            }
-
-            db.Entry(sale).State = EntityState.Modified;
+            db.Entry(s).State = EntityState.Modified;
 
             try
             {
@@ -92,24 +94,24 @@ namespace Sales.API.Controllers
 
         // POST: api/Sales
         [ResponseType(typeof(Sale))]
-        public IHttpActionResult PostSale(List<SaleProduct> saleProducts, [FromUri]int client, [FromUri]DateTime date)
+        public IHttpActionResult PostSale(Sale sale)
         {
-            if (client <= 0)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             ObjectParameter saleId = new ObjectParameter("SaleId", typeof(int));
-            db.spInsertSale(client, date, saleId);
+            db.spInsertSale(sale.ClientId, sale.DateSale, saleId);
 
-            foreach (SaleProduct saleProduct in saleProducts)
+            foreach (SaleProduct saleProduct in sale.SaleProducts)
             {
                 db.spInsertSaleProduct((int)saleId.Value, saleProduct.ProductId, saleProduct.Quantity);
             }
 
             db.SaveChanges();
 
-            Sale sale = db.Sales.Find((int)saleId.Value);
+            sale = db.Sales.Find((int)saleId.Value);
             return CreatedAtRoute("DefaultApi", new { id = sale.Id }, sale);
         }
 
@@ -123,10 +125,8 @@ namespace Sales.API.Controllers
                 return NotFound();
             }
 
-            foreach (SaleProduct saleProduct in sale.SaleProducts)
-            {
-                db.SaleProducts.Remove(saleProduct);
-            }
+            sale.SaleProducts.Clear();
+            db.SaveChanges();
 
             db.Sales.Remove(sale);
             db.SaveChanges();

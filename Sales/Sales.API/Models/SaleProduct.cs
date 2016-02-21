@@ -26,7 +26,7 @@ namespace Sales.API.Models
         public int Quantity { get; set; }
         [DataMember]
         public decimal Price { get; set; }
-        [IgnoreDataMember]
+        [DataMember]
         public virtual Product Product { get; set; }
         [IgnoreDataMember]
         public virtual Sale Sale { get; set; }
