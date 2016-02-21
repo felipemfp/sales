@@ -18,7 +18,7 @@ Desenvolver aplicações com a utilização de serviços e programação em banc
 
 ## Funcionalidades e Requisitos de Casos de Uso
 
-- [ ] Crud Fabricante, Crud Produto e Crud Cliente devem ser realizados utilizando LINQ acessando as respectivas tabelas no banco de dados. 
+- [x] Crud Fabricante, Crud Produto e Crud Cliente devem ser realizados utilizando LINQ acessando as respectivas tabelas no banco de dados. 
 
 - [x] Cadastro  de  Venda  deve  ser  realizado  com  procedimentos  armazenados  no  banco  de  dados  para  inserir  os dados referentes a uma venda (dados da venda e itens vendidos) nas respectivas tabelas do banco. O desconto dado em uma venda deve ser x% sobre o total dos itens, onde x é o número de vendas já realizadas ao cliente nos últimos seis meses, limitado a 10%. Para clientes VIPs, o desconto é fixado em 15%, independente do  número  de  vendas  anteriores.  Os  valores  totais  com  e  sem  desconto  e  o  valor  do  desconto  devem  ser armazenados no banco. 
 
