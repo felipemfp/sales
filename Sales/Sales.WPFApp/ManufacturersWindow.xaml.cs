@@ -29,7 +29,12 @@ namespace Sales.WPFApp
             InitDataGrid();
         }
 
-        async void InitDataGrid()
+        private void ClearFields()
+        {
+            textBoxDescription.Text = string.Empty;
+        }
+
+        private async void InitDataGrid()
         {
             dataGrid.ItemsSource = await Manufacturer.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
@@ -49,6 +54,7 @@ namespace Sales.WPFApp
                 if (response.IsSuccessStatusCode)
                 {
                     InitDataGrid();
+                    ClearFields();
                     MessageBox.Show($"Manufacturer {manufacturer.Description} was added");
                 }
                 else
@@ -65,24 +71,32 @@ namespace Sales.WPFApp
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             Manufacturer manufacturer = (Manufacturer)dataGrid.SelectedItem;
-            string newDescription = textBoxDescription.Text.Trim();
-            if (manufacturer != null && !String.IsNullOrEmpty(newDescription))
+            if (manufacturer != null)
             {
-                manufacturer.Description = newDescription;
-                HttpResponseMessage response = await Manufacturer.Edit(manufacturer);
-                if (response.IsSuccessStatusCode)
+                string newDescription = textBoxDescription.Text.Trim();
+                if (!String.IsNullOrEmpty(newDescription))
                 {
-                    InitDataGrid();
-                    MessageBox.Show($"Manufacturer {manufacturer.Description} was edited");
+                    manufacturer.Description = newDescription;
+                    HttpResponseMessage response = await Manufacturer.Edit(manufacturer);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        InitDataGrid();
+                        ClearFields();
+                        MessageBox.Show($"Manufacturer {manufacturer.Description} was edited");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Manufacturer {manufacturer.Description} wasn't edited");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show($"Manufacturer {manufacturer.Description} wasn't edited");
+                    MessageBox.Show("Description is required...");
                 }
             }
             else
             {
-                MessageBox.Show("Description is required...");
+                MessageBox.Show("Select a manufacturer...");
             }
         }
 
@@ -97,6 +111,7 @@ namespace Sales.WPFApp
                     if (response.IsSuccessStatusCode)
                     {
                         InitDataGrid();
+                        ClearFields();
                         MessageBox.Show($"Manufacturer {manufacturer.Description} was deleted");
                     }
                     else

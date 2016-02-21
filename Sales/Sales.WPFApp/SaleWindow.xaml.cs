@@ -41,7 +41,13 @@ namespace Sales.WPFApp
             InitDataGrid();
         }
 
-        async void InitDetails()
+        private void ClearFields()
+        {
+            comboBoxProduct.SelectedIndex = -1;
+            textBoxQuantity.Text = string.Empty;
+        }
+
+        private async void InitDetails()
         {
             Sale sale = await Sale.Find(this.id);
             if (sale != null)
@@ -51,13 +57,13 @@ namespace Sales.WPFApp
             }
         }
 
-        async void InitComboBox()
+        private async void InitComboBox()
         {
             comboBoxClient.ItemsSource = await Client.ToList();
             comboBoxProduct.ItemsSource = await Product.ToList();
         }
 
-        async void InitDataGrid()
+        private async void InitDataGrid()
         {
             if (this.id <= 0)
             {
@@ -109,7 +115,8 @@ namespace Sales.WPFApp
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
             Product product = (Product)comboBoxProduct.SelectedItem;
-            int quantity = int.Parse(textBoxQuantity.Text.Trim());
+            int quantity = 0;
+            int.TryParse(textBoxQuantity.Text.Trim(), out quantity);
             if (product != null && quantity > 0)
             {
                 if (product.Stock >= quantity)
@@ -122,6 +129,7 @@ namespace Sales.WPFApp
                     List<SaleProduct> saleProducts = dataGrid.Items.OfType<SaleProduct>().ToList();
                     saleProducts.Add(saleProduct);
                     dataGrid.ItemsSource = saleProducts;
+                    ClearFields();
                 }
                 else
                 {
@@ -142,13 +150,22 @@ namespace Sales.WPFApp
             {
                 saleProduct.ProductId = (int)comboBoxProduct.SelectedValue;
                 saleProduct.Product = (Product)comboBoxProduct.SelectedItem;
-                saleProduct.Quantity = int.Parse(textBoxQuantity.Text.Trim());
+                int quantity = 0;
+                int.TryParse(textBoxQuantity.Text.Trim(), out quantity);
+                saleProduct.Quantity = quantity;
                 saleProduct.Price = saleProduct.Quantity * saleProduct.Product.Price;
-
-                List<SaleProduct> saleProducts = dataGrid.Items.OfType<SaleProduct>().ToList();
-                saleProducts.RemoveAt(dataGrid.SelectedIndex);
-                saleProducts.Add(saleProduct);
-                dataGrid.ItemsSource = saleProducts;
+                if (saleProduct.Quantity > 0 && saleProduct.Product != null)
+                {
+                    List<SaleProduct> saleProducts = dataGrid.Items.OfType<SaleProduct>().ToList();
+                    saleProducts.RemoveAt(dataGrid.SelectedIndex);
+                    saleProducts.Add(saleProduct);
+                    dataGrid.ItemsSource = saleProducts;
+                    ClearFields();
+                }
+                else
+                {
+                    MessageBox.Show("Select a product and enter a quantity...");
+                }
             }
             else
             {
@@ -166,6 +183,7 @@ namespace Sales.WPFApp
                     List<SaleProduct> saleProducts = dataGrid.Items.OfType<SaleProduct>().ToList();
                     saleProducts.RemoveAt(dataGrid.SelectedIndex);
                     dataGrid.ItemsSource = saleProducts;
+                    ClearFields();
                 }
             }
             else

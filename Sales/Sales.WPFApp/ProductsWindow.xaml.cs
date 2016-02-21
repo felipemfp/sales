@@ -31,12 +31,20 @@ namespace Sales.WPFApp
             InitDataGrid();
         }
 
-        async void InitComboBox()
+        private void ClearFields()
+        {
+            comboBoxManufacturer.SelectedIndex = -1;
+            textBoxDescription.Text = string.Empty;
+            textBoxStock.Text = string.Empty;
+            textBoxPrice.Text = string.Empty;
+        }
+
+        private async void InitComboBox()
         {
             comboBoxManufacturer.ItemsSource = await Manufacturer.ToList();
         }
 
-        async void InitDataGrid()
+        private async void InitDataGrid()
         {
             dataGrid.ItemsSource = await Product.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
@@ -48,9 +56,11 @@ namespace Sales.WPFApp
             Manufacturer manufacturer = (Manufacturer)comboBoxManufacturer.SelectedItem;
             int manufacturerId = manufacturer.Id;
             string description = textBoxDescription.Text.Trim();
-            decimal price = decimal.Parse(textBoxPrice.Text.Trim(), new CultureInfo("pt-BR"));
-            int stock = int.Parse(textBoxStock.Text.Trim());
-            if (manufacturerId > 0 && !String.IsNullOrEmpty(description))
+            decimal price = -1;
+            decimal.TryParse(textBoxPrice.Text.Trim(), NumberStyles.Any, new CultureInfo("pt-BR"), out price);
+            int stock = -1;
+            int.TryParse(textBoxStock.Text.Trim(), out stock);
+            if (manufacturerId > 0 && !String.IsNullOrEmpty(description) && stock >= 0 && price >= 0)
             {
                 Product product = new Product()
                 {
@@ -63,6 +73,7 @@ namespace Sales.WPFApp
                 if (responde.IsSuccessStatusCode)
                 {
                     InitDataGrid();
+                    ClearFields();
                     MessageBox.Show($"Product {product.Description} of {manufacturer.Description} was added");
                 }
                 else
@@ -79,32 +90,41 @@ namespace Sales.WPFApp
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             Product product = (Product)dataGrid.SelectedItem;
-
-            int newManufacturerId = ((Manufacturer)comboBoxManufacturer.SelectedItem).Id;
-            string newDescription = textBoxDescription.Text.Trim();
-            decimal newPrice = decimal.Parse(textBoxPrice.Text.Trim(), new CultureInfo("pt-BR"));
-            int newStock = int.Parse(textBoxStock.Text.Trim());
-
-            if (newManufacturerId > 0 && !String.IsNullOrEmpty(newDescription))
+            if (product != null)
             {
-                product.ManufacturerId = newManufacturerId;
-                product.Description = newDescription;
-                product.Price = newPrice;
-                product.Stock = newStock;
-                HttpResponseMessage responde = await Product.Edit(product);
-                if (responde.IsSuccessStatusCode)
+                int newManufacturerId = ((Manufacturer)comboBoxManufacturer.SelectedItem).Id;
+                string newDescription = textBoxDescription.Text.Trim();
+                decimal newPrice = -1;
+                decimal.TryParse(textBoxPrice.Text.Trim(), NumberStyles.Any, new CultureInfo("pt-BR"), out newPrice);
+                int newStock = -1;
+                int.TryParse(textBoxStock.Text.Trim(), out newStock);
+
+                if (newManufacturerId > 0 && !String.IsNullOrEmpty(newDescription) && newStock >= 0 && newPrice >= 0)
                 {
-                    InitDataGrid();
-                    MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} was edited");
+                    product.ManufacturerId = newManufacturerId;
+                    product.Description = newDescription;
+                    product.Price = newPrice;
+                    product.Stock = newStock;
+                    HttpResponseMessage responde = await Product.Edit(product);
+                    if (responde.IsSuccessStatusCode)
+                    {
+                        InitDataGrid();
+                        ClearFields();
+                        MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} was edited");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} wasn't edited");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} wasn't edited");
+                    MessageBox.Show("All fields are required...");
                 }
             }
             else
             {
-                MessageBox.Show("All fields are required...");
+                MessageBox.Show("Select a product...");
             }
         }
 
@@ -119,6 +139,7 @@ namespace Sales.WPFApp
                     if (responde.IsSuccessStatusCode)
                     {
                         InitDataGrid();
+                        ClearFields();
                         MessageBox.Show($"Product {product.Description} of {product.Manufacturer.Description} was deleted");
                     }
                     else
@@ -139,7 +160,7 @@ namespace Sales.WPFApp
             if (product != null)
             {
                 textBoxDescription.Text = product.Description;
-                textBoxPrice.Text = product.Price.ToString("0,##", new CultureInfo("pt-BR"));
+                textBoxPrice.Text = product.Price.ToString("0.00", new CultureInfo("pt-BR"));
                 textBoxStock.Text = product.Stock.ToString();
                 comboBoxManufacturer.SelectedValue = product.ManufacturerId;
             }

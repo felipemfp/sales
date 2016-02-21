@@ -30,12 +30,23 @@ namespace Sales.WPFApp
             InitComboBox();
         }
 
-        async void InitComboBox()
+        private void ClearFilterPerDate()
+        {
+            datePickerStart.SelectedDate = null;
+            datePickerEnd.SelectedDate = null;
+        }
+
+        private void ClearFilterPerClient()
+        {
+            comboBoxClient.SelectedIndex = -1;
+        }
+
+        private async void InitComboBox()
         {
             comboBoxClient.ItemsSource = await Client.ToList();
         }
 
-        async void InitDataGrid()
+        private async void InitDataGrid()
         {
             dataGrid.ItemsSource = await Sale.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
@@ -47,6 +58,8 @@ namespace Sales.WPFApp
             SaleWindow saleWindow = new SaleWindow();
             saleWindow.ShowDialog();
             InitDataGrid();
+            ClearFilterPerDate();
+            ClearFilterPerClient();
         }
 
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
@@ -57,6 +70,8 @@ namespace Sales.WPFApp
                 SaleWindow saleWindow = new SaleWindow(sale.Id);
                 saleWindow.ShowDialog();
                 InitDataGrid();
+                ClearFilterPerDate();
+                ClearFilterPerClient();
             }
             else
             {
@@ -75,6 +90,8 @@ namespace Sales.WPFApp
                     if (responde.IsSuccessStatusCode)
                     {
                         InitDataGrid();
+                        ClearFilterPerDate();
+                        ClearFilterPerClient();
                         MessageBox.Show($"Sale #{sale.Id} of {sale.Client.Name} was deleted");
                     }
                     else
@@ -95,6 +112,7 @@ namespace Sales.WPFApp
             if (client != null)
             {
                 dataGrid.ItemsSource = await Sale.ToList(client);
+                ClearFilterPerDate();
             }
         }
 
@@ -105,6 +123,7 @@ namespace Sales.WPFApp
             if (startDate.HasValue && endDate.HasValue)
             {
                 dataGrid.ItemsSource = await Sale.ToList(startDate.Value, endDate.Value);
+                ClearFilterPerClient();
             }
         }
     }

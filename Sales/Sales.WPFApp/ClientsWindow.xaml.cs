@@ -29,7 +29,12 @@ namespace Sales.WPFApp
             InitDataGrid();
         }
 
-        async void InitDataGrid()
+        private void ClearFields()
+        {
+            textBoxName.Text = string.Empty;
+        }
+
+        private async void InitDataGrid()
         {
             dataGrid.ItemsSource = await Client.ToList();
             dataGrid.SelectionMode = DataGridSelectionMode.Single;
@@ -49,6 +54,7 @@ namespace Sales.WPFApp
                 if (response.IsSuccessStatusCode)
                 {
                     InitDataGrid();
+                    ClearFields();
                     MessageBox.Show($"Client {client.Name} was added");
                 }
                 else
@@ -65,24 +71,32 @@ namespace Sales.WPFApp
         private async void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             Client client = (Client)dataGrid.SelectedItem;
-            string newName = textBoxName.Text.Trim();
-            if (client != null && !String.IsNullOrEmpty(newName))
+            if (client != null)
             {
-                client.Name = newName;
-                HttpResponseMessage response = await Client.Edit(client);
-                if (response.IsSuccessStatusCode)
+                string newName = textBoxName.Text.Trim();
+                if (!String.IsNullOrEmpty(newName))
                 {
-                    InitDataGrid();
-                    MessageBox.Show($"Client {client.Name} was edited");
+                    client.Name = newName;
+                    HttpResponseMessage response = await Client.Edit(client);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        InitDataGrid();
+                        ClearFields();
+                        MessageBox.Show($"Client {client.Name} was edited");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Client {client.Name} wasn't edited");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show($"Client {client.Name} wasn't edited");
+                    MessageBox.Show("Name is required...");
                 }
             }
             else
             {
-                MessageBox.Show("Name is required...");
+                MessageBox.Show("Select a client...");
             }
         }
 
@@ -97,6 +111,7 @@ namespace Sales.WPFApp
                     if (response.IsSuccessStatusCode)
                     {
                         InitDataGrid();
+                        ClearFields();
                         MessageBox.Show($"Client {client.Name} was deleted");
                     }
                     else
