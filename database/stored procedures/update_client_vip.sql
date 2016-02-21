@@ -12,7 +12,7 @@ begin
     @DateLastSale datetime
 
   select @VIP = VIP from Client where Id = @ClientId
-  set @DateCompare = dateadd(month, -12, getdate())
+  set @DateCompare = dateadd(month, -12, @DateSale)
   select @CountSales = count(Id) from Sale
     where ClientId = @ClientId
       and DateSale between @DateCompare and @DateSale

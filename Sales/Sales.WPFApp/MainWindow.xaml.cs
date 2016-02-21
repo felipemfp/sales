@@ -29,6 +29,7 @@ namespace Sales.WPFApp
         {
             SalesWindow salesWindow = new SalesWindow();
             salesWindow.ShowDialog();
+            InitDataGrid();
         }
 
         private void buttonClients_Click(object sender, RoutedEventArgs e)
