@@ -23,15 +23,17 @@ namespace Sales.API.Controllers
         }
 
         // GET: api/Sales?client=5
-        public IEnumerable<spSelectSaleByClient_Result> GetSales([FromUri]int client)
+        public IEnumerable<Sale> GetSales([FromUri]int client)
         {
-            return db.spSelectSaleByClient(client).ToList();
+            List<spSelectSaleByClient_Result> result = db.spSelectSaleByClient(client).ToList();
+            return result.Select(s => db.Sales.Find(s.Id));
         }
 
         // GET: api/Sales?startDate=2015-02-01&endDate=2016-02-01
-        public IEnumerable<spSelectSaleByDate_Result> GetSales([FromUri]DateTime startDate, [FromUri]DateTime endDate)
+        public IEnumerable<Sale> GetSales([FromUri]DateTime startDate, [FromUri]DateTime endDate)
         {
-            return db.spSelectSaleByDate(startDate, endDate).ToList();
+            List<spSelectSaleByDate_Result> result = db.spSelectSaleByDate(startDate, endDate).ToList();
+            return result.Select(s => db.Sales.Find(s.Id));
         }
 
         // GET: api/Sales/5
@@ -68,7 +70,7 @@ namespace Sales.API.Controllers
             {
                 return NotFound();
             }
-            
+
             s.SaleProducts.Clear();
 
             db.SaveChanges();
@@ -77,8 +79,6 @@ namespace Sales.API.Controllers
             {
                 db.spInsertSaleProduct(s.Id, saleProduct.ProductId, saleProduct.Quantity);
             }
-
-            db.Entry(s).State = EntityState.Modified;
 
             try
             {

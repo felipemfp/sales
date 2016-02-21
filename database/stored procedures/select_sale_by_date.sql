@@ -8,6 +8,5 @@ begin
   select Id, ClientId, DateSale, Total, Discount, FinalTotal
   from Sale
   where
-    DateSale >= @StartDate
-    and DateSale <= @EndDate
+    DateSale between @StartDate and @EndDate
 end

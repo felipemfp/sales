@@ -27,6 +27,12 @@ namespace Sales.WPFApp
         {
             InitializeComponent();
             InitDataGrid();
+            InitComboBox();
+        }
+
+        async void InitComboBox()
+        {
+            comboBoxClient.ItemsSource = await Client.ToList();
         }
 
         async void InitDataGrid()
@@ -80,6 +86,25 @@ namespace Sales.WPFApp
             else
             {
                 MessageBox.Show("Select a sale...");
+            }
+        }
+
+        private async void comboBoxClient_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Client client = (Client)comboBoxClient.SelectedItem;
+            if (client != null)
+            {
+                dataGrid.ItemsSource = await Sale.ToList(client);
+            }
+        }
+
+        private async void datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime? startDate = datePickerStart.SelectedDate;
+            DateTime? endDate = datePickerEnd.SelectedDate;
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                dataGrid.ItemsSource = await Sale.ToList(startDate.Value, endDate.Value);
             }
         }
     }

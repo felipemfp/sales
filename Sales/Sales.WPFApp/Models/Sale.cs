@@ -49,6 +49,36 @@ namespace Sales.WPFApp.Models
             return null;
         }
 
+        public static async Task<List<Sale>> ToList(Client client)
+        {
+            using (var c = APIService.GetClient())
+            {
+                HttpResponseMessage response = await c.GetAsync($"sales?client={client.Id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<Sale>>(json);
+                }
+            }
+            return null;
+        }
+
+
+
+        public static async Task<List<Sale>> ToList(DateTime startDate, DateTime endDate)
+        {
+            using (var c = APIService.GetClient())
+            {
+                HttpResponseMessage response = await c.GetAsync($"sales?startDate={startDate.ToString("yyyy-MM-dd")}&endDate={endDate.ToString("yyyy-MM-dd")}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<List<Sale>>(json);
+                }
+            }
+            return null;
+        }
+
         public static async Task<HttpResponseMessage> Add(Sale sale)
         {
             using (var c = APIService.GetClient())

@@ -10,12 +10,33 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button x:Name="buttonNew" Click="buttonNew_Click" Margin="10, 10, 130, 10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="0" />
-        <Button x:Name="buttonEdit" Click="buttonEdit_Click" Margin="10, 10, 70, 10" HorizontalAlignment="Right" Width="50" Content="Edit" Grid.Row="0" />
-        <Button x:Name="buttonDelete" Click="buttonDelete_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Delete" Grid.Row="0" />
-        <DataGrid x:Name="dataGrid" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" AutoGenerateColumns="False">
+        <GroupBox x:Name="groupBoxFilterPerClient" Header="Filter per client" Grid.Row="0" Margin="10" Width="150" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <Grid>
+                <TextBlock Text="Client" Margin="10" HorizontalAlignment="Left" Grid.Row="0" />
+                <ComboBox x:Name="comboBoxClient" Margin="10, 30, 10, 10" HorizontalAlignment="Stretch" Grid.Row="0" SelectedValuePath="Id" SelectionChanged="comboBoxClient_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBoxFilterPerDate" Header="Filter per date" Grid.Row="0" Margin="170, 10, 10, 10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid>
+                <TextBlock Text="Start date" Margin="10" HorizontalAlignment="Left" Grid.Row="0" />
+                <DatePicker x:Name="datePickerStart" Margin="10, 30, 10, 10" Width="150" HorizontalAlignment="Left" Grid.Row="0" SelectedDateChanged="datePicker_SelectedDateChanged"/>
+                <TextBlock Text="End date" Margin="170, 10, 10, 10" HorizontalAlignment="Left" Grid.Row="0" />
+                <DatePicker x:Name="datePickerEnd" Margin="170, 30, 10, 10" Grid.Row="0" SelectedDateChanged="datePicker_SelectedDateChanged" />
+            </Grid>
+        </GroupBox>
+        <Button x:Name="buttonNew" Click="buttonNew_Click" Margin="10, 10, 130, 10" HorizontalAlignment="Right" Width="50" Content="Add" Grid.Row="1" />
+        <Button x:Name="buttonEdit" Click="buttonEdit_Click" Margin="10, 10, 70, 10" HorizontalAlignment="Right" Width="50" Content="Edit" Grid.Row="1" />
+        <Button x:Name="buttonDelete" Click="buttonDelete_Click" Margin="10" HorizontalAlignment="Right" Width="50" Content="Delete" Grid.Row="1" />
+        <DataGrid x:Name="dataGrid" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Client" Binding="{Binding Client.Name}" />
